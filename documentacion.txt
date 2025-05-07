@@ -1,0 +1,57 @@
+Descripción del Conjunto de Datos
+El conjunto de datos representa información sobre coches usados, con detalles tanto generales como específicos del estado y precio de cada vehículo. La información incluye:
+
+-- Datos Básicos: Nombre del coche, año de fabricación, tipo de transmisión (manual o automática), y tipo de combustible (gasolina, diésel, etc.).
+-- Especificaciones Técnicas: Características como la capacidad del motor, potencia máxima, torque, número de asientos y kilometraje por litro.
+-- Información de Venta: Precio de venta y tipo de vendedor (particular, concesionario, etc.).
+-- Condición del Vehículo: Kilometraje recorrido y número de propietarios previos.
+
+
+Estructura de la Tabla en HBase
+La tabla en HBase se llama used_cars y está organizada en cuatro familias de columnas, que agrupan la información de cada coche en diferentes categorías:
+
+Familia de columnas basic (datos básicos): Almacena información básica del coche.
+Columnas:
+name: Nombre del coche.
+year: Año de fabricación.
+transmission: Tipo de transmisión (manual o automática).
+fuel: Tipo de combustible.
+
+Familia de columnas specs (especificaciones):Contiene las especificaciones técnicas del coche.
+Columnas:
+engine: Tamaño o capacidad del motor.
+max_power: Potencia máxima del motor.
+torque: Torque del motor.
+seats: Número de asientos en el coche.
+mileage: Kilometraje por litro.
+
+Familia de columnas sales (ventas): Guarda información relacionada con la venta del coche.
+Columnas:
+selling_price: Precio de venta del coche.
+seller_type: Tipo de vendedor (particular o concesionario).
+
+Familia de columnas condition (condición): Describe el estado actual y el historial de uso del coche.
+Columnas:
+km_driven: Kilometraje recorrido por el coche.
+owner: Número de propietarios previos (primera mano, segunda mano, etc.).
+
+Organización de Datos
+Cada coche es representado por una row key única (car_<índice>), lo cual facilita el acceso y actualización de la información de cada coche individualmente. 
+Esta estructura es adecuada para consultas analíticas rápidas y permite acceder fácilmente a datos específicos, como el precio, kilometraje o tipo de combustible de los coches almacenados en HBase.
+
+
+EXPLICACIÓN DE LAS CONSULTAS:
+
+1 Listado de todos los coches en la base de datos (primeros 3): Muestra información de los primeros tres coches almacenados en la base de datos, incluyendo ID, nombre, año y precio.
+
+2 Coches con precio menor a 50,000: Filtra y muestra coches cuyo precio de venta es inferior a 50,000, mostrando el ID, nombre y precio de cada uno.
+
+3 Coches por tipo de propietario: Cuenta el número de coches agrupados por tipo de propietario (primera mano, segunda mano, etc.), y muestra la cantidad de coches para cada tipo.
+
+4 Precio promedio por tipo de combustible: Calcula y muestra el precio promedio de venta de los coches, agrupado según el tipo de combustible (por ejemplo, gasolina, diésel).
+
+5 Top 3 coches con mayor kilometraje: Ordena los coches en función de su kilometraje y muestra los tres con el kilometraje más alto, incluyendo ID, nombre, kilometraje y precio.
+
+6 Precio promedio por tipo de transmisión: Calcula y muestra el precio promedio de venta de los coches agrupados por tipo de transmisión (manual o automática).
+
+7 Actualización de precio de un coche específico: Actualiza el precio de venta de un coche específico (car_0) a un nuevo valor dado y confirma el cambio.
